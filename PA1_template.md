@@ -35,14 +35,30 @@ mediansteps <- median(datsum$totsteps)
 ```
 
 ## What is the mean total number of steps taken per day?
-The mean total number of steps is 1.0766189\times 10^{4}
+The mean total number of steps is **1.0766189\times 10^{4}**
 
-The median total number of steps is 10765
+The median total number of steps is **10765**
 
 
 ## What is the average daily activity pattern?
 
+```r
+# calculate mean #steps for each 5-minute interval
 
+minuteData <- ddply(newdat,"interval",summarize,minavg=mean(steps))
+plot(minuteData$interval,minuteData$minavg,type='l',xlab='interval',ylab='Average steps')
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+
+```r
+# determine which interval contains the maximum number of steps
+maxInterval <- minuteData$interval[which(minuteData$minavg == max(minuteData$minavg))]
+```
+
+The interval with the maximum number of steps is **835**
+
+-------
 
 ## Imputing missing values
 
