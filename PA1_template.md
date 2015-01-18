@@ -5,11 +5,12 @@
 ## Loading and preprocessing the data
 
 ```r
+# read in activity.csv
 mydat <- read.csv("activity.csv")
 # cleanup date
 mydat$date <- as.Date(as.character(mydat$date))
 
-#clean NA's...set to zero
+#clean NA's...remove for now
 newdat <-mydat[!is.na(mydat$steps),]
 
 #use plyr to get sum, mean and median number of steps each day
@@ -65,7 +66,53 @@ The interval with the maximum number of steps is **835**
 ```r
 # calculate number of missing samples
 misssamp <- sum(is.na(mydat$steps))
+
+# determine which rows have missing data
+missRows <- which(is.na(mydat$steps))
+#loop over the missing rows and copy in the appropriate 5-minute average
+#create new data set first
+newDataSet <- mydat
+
+for (i in missRows) {
+
+  newDataSet$steps[i] = minuteData$minavg[minuteData$interval==newDataSet$interval[i]]
+}
+# calculate sum on updated dataset
+newDataSum<-ddply(newDataSet,"date",summarize,totsteps=sum(steps))
+
+  #hist(newDataSum$totsteps)
+# calc mean and median numer of total steps per day
+newmeansteps <-mean(newDataSum$totsteps)
+newmediansteps <- median(newDataSum$totsteps)
 ```
-There are  2304 missing samples
+There are  **2304** missing samples.
+
+Using the 5-minute average for the same window each day, the NA values were replaced. 
+
+The updated mean number of steps is **1.0766189\times 10^{4}**
+
+The updated median number of steps is **1.0766189\times 10^{4}**
+
+
+```r
+# calculate differences in the mean/median steps for the two datasets
+
+deltamean= newmeansteps - meansteps
+deltamedian = newmediansteps - mediansteps
+```
+
+This shows a delta of **0** steps in the mean and **1.1886792** steps in the median
+
+
+### Histogram on updated data set
+
+```r
+hist(newDataSum$totsteps)
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+
+
+
 
 ## Are there differences in activity patterns between weekdays and weekends?
