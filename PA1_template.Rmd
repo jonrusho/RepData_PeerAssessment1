@@ -106,3 +106,26 @@ hist(newDataSum$totsteps)
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+```{r}
+# create weekend/weekday factor
+# there is probably a better way to do this, but at least this works
+newDataSet$dow <- weekdays(newDataSet$date)
+newDataSet$dow[newDataSet$dow=="Sunday" | newDataSet$dow == "Saturday"]  <- 'weekend'
+newDataSet$dow[newDataSet$dow != 'weekend'] <- 'weekday'
+newDataSet$dowFact <- as.factor(newDataSet$dow)
+
+weekendSubset=newDataSet[newDataSet$dowFact=="weekend",]
+weekdaySubset=newDataSet[newDataSet$dowFact=="weekday",]
+#str(newDataSet)
+weekdayMinuteData <- ddply(weekdaySubset,"interval",summarize,minavg=mean(steps))
+weekendMinuteData <- ddply(weekendSubset,"interval",summarize,minavg=mean(steps))
+
+#head(weekdayMinuteData)
+par(mfrow=c(2,1))
+plot(weekdayMinuteData$interval,weekdayMinuteData$minavg,type='l',xlab='interval',ylab='Average steps',main="Weekday")
+
+plot(weekendMinuteData$interval,weekendMinuteData$minavg,type='l',xlab='interval',ylab='Average steps', main="Weekend")
+
+```
+
