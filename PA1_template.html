@@ -80,13 +80,17 @@ mediansteps &lt;- median(datsum$totsteps)</code></pre>
 </div>
 <div id="what-is-the-mean-total-number-of-steps-taken-per-day" class="section level2">
 <h2>What is the mean total number of steps taken per day?</h2>
-<p>The mean total number of steps is 1.076618910^{4} The median total number of steps is 10765</p>
+<p>The mean total number of steps is 1.076618910^{4}</p>
+<p>The median total number of steps is 10765</p>
 </div>
 <div id="what-is-the-average-daily-activity-pattern" class="section level2">
 <h2>What is the average daily activity pattern?</h2>
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
+<pre class="r"><code># calculate number of missing samples
+misssamp &lt;- sum(is.na(mydat$steps))</code></pre>
+<p>There are 2304 missing samples</p>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>

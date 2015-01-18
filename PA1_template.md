@@ -36,6 +36,7 @@ mediansteps <- median(datsum$totsteps)
 
 ## What is the mean total number of steps taken per day?
 The mean total number of steps is 1.0766189\times 10^{4}
+
 The median total number of steps is 10765
 
 
@@ -45,6 +46,10 @@ The median total number of steps is 10765
 
 ## Imputing missing values
 
-
+```r
+# calculate number of missing samples
+misssamp <- sum(is.na(mydat$steps))
+```
+There are  2304 missing samples
 
 ## Are there differences in activity patterns between weekdays and weekends?
